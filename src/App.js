@@ -1,25 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import  TabItemComponent from '../src/TabComponent'
+import  Counter from './Counter'
+import Table from './Table';
+const tabItems = [
+  {
+    id: 1,
+    title: 'Tab 1',
+    icon: 'tabitem__icon fas fa-book',
+    content: <Counter></Counter>,
+  },
+  {
+    id: 2,
+    title: 'Tab 2',
+    icon: 'tabitem__icon fas fa-book',
+    content: <Table></Table>,
+  }
+];
 
 function App() {
+  const [active, setActive] = useState(0);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div className="wrapper">
+      <div className="tabs">
+        {tabItems.map(({ id, icon, title }) =><TabItemComponent
+           key={title}
+           icon={icon}
+           title={title}
+           onItemClicked={() => setActive(id)}
+           isActive={active === id}
+         />
+      )}
+      </div>
+      <div className="content">
+        {tabItems.map(({ id, content }) => 
+           active === id ? content : ''
+        )}
+      </div>
+     </div>
+  )
 }
 
 export default App;
